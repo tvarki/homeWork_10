@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         guard let str = myTextField.text , str.count  > 0 else {return}
         
         if isTableViewModelContains(item: str) {
-            print (makeAlert(title: "Внимание", text: "В вашем списке уже есть пункт \(str). Добавить еще один?", str: str, actionAdd: addItem))
+            makeAlert(title: "Внимание", text: "В вашем списке уже есть пункт \(str). Добавить еще один?", str: str, actionAdd: addItem)
         }else {
             addItem(str: str)
         }
