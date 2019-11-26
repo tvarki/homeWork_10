@@ -1,14 +1,15 @@
 //
-//  ViewController.swift
+//  TableViewController.swift
 //  homeWork_10
 //
-//  Created by Дмитрий Яковлев on 21.11.2019.
+//  Created by Дмитрий Яковлев on 26.11.2019.
 //  Copyright © 2019 Дмитрий Яковлев. All rights reserved.
 //
 
+
 import UIKit
 
-class ViewController: UIViewController {
+class TableViewController: UIViewController {
     
     //MARK:- Outlets
     
@@ -85,7 +86,7 @@ class ViewController: UIViewController {
 }
 
 //MARK:- Delegate extension
-extension ViewController: UITableViewDelegate{
+extension TableViewController: UITableViewDelegate{
     
     //MARK:- function for delete item from TableView and tableModel
     private func deleteItem(indexPath: IndexPath ,tableView : UITableView){
@@ -194,7 +195,7 @@ extension ViewController: UITableViewDelegate{
 }
 
 //MARK:- Data Source extension
-extension ViewController: UITableViewDataSource{
+extension TableViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.getData().count
     }
@@ -207,7 +208,7 @@ extension ViewController: UITableViewDataSource{
 }
 
 //MARK:- ModelWork extension
-extension ViewController{
+extension TableViewController{
     private func addItemToTableViewModel(label: String){
         tableModel.add(str: label)
     }
@@ -225,3 +226,4 @@ extension ViewController{
     }
     
 }
+
