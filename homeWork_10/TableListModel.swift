@@ -10,27 +10,29 @@ import Foundation
 //MARK:- TableListModel
 class TableListModel {
     
-    private var data : [String] = []
-
-    init(data:[String]){
+    private var data : [TAbleLIstModelItem] = []
+//    private var isChecked:[Bool] = []
+    
+    init(data:[TAbleLIstModelItem]){
         self.data = data
     }
 
     func add(str: String){
-        self.data.append(str)
+        self.data.append(TAbleLIstModelItem(data: str,isChecked: false))
     }
     
     func rem(at: Int){
         self.data.remove(at: at)
     }
     
-    func getData()-> [String]{
+    func getData()-> [TAbleLIstModelItem]{
         return self.data
     }
-    func getString(at rowIndex: Int)-> String{
+    func getString(at rowIndex: Int)-> TAbleLIstModelItem{
         return self.data[rowIndex]
     }
-    func isContain(item : String) -> Bool{
+    
+    func isContain(item : TAbleLIstModelItem) -> Bool{
         if self.data.contains(item){
             return true
         }

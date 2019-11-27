@@ -56,7 +56,7 @@ class TableViewController: UIViewController {
     @IBAction func addButtonPressed(_ sender: UIButton) {
         guard let str = myTextField.text , str.count  > 0 else {return}
         
-        if isTableViewModelContains(item: str) {
+        if isTableViewModelContains(item: TAbleLIstModelItem(data: str,isChecked: false)) {
             makeAlert(title: "Внимание", text: "В вашем списке уже есть пункт \(str). Добавить еще один?", str: str, actionAdd: addItem)
         }else {
             addItem(str: str)
@@ -145,11 +145,21 @@ extension TableViewController: UITableViewDelegate{
         
         let action = UIContextualAction(style: .normal, title: actionSettings.title) { (action, view, completionHandler) in
             cell?.accessoryType = actionSettings.aType
+           
+            self.checkUncheck(type: actionSettings.aType, indexPath: indexPath)
             completionHandler(true)
         }
         action.backgroundColor = actionSettings.bColor
         let configuration = UISwipeActionsConfiguration(actions: [ action ])
         return configuration
+    }
+    
+    func checkUncheck(type : UITableViewCell.AccessoryType, indexPath:IndexPath){
+        if type == .checkmark{
+                       self.tableModel.getString(at: indexPath.row).isChecked = true
+                   }else{
+                       self.tableModel.getString(at: indexPath.row).isChecked = false
+                   }
     }
     
     //MARK:- uncheck action for safe delete
@@ -172,6 +182,8 @@ extension TableViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else {return}
         cell.accessoryType = createTypeActionSettings(cell: cell,toDo: .checkUncheck).aType
+        self.checkUncheck(type: cell.accessoryType, indexPath: indexPath)
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
     //MARK:- Create accessory type settings struct for cell
@@ -202,7 +214,13 @@ extension TableViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-        cell.textLabel?.text = tableModel.getString(at: indexPath.row)
+        cell.textLabel?.text = tableModel.getString(at: indexPath.row).data
+        if tableModel.getString(at: indexPath.row).isChecked {
+            cell.accessoryType = .checkmark
+        }else{
+            cell.accessoryType = .none
+
+        }
         return cell
     }
 }
@@ -218,7 +236,7 @@ extension TableViewController{
     private func removeItemFromTableViewModel(at index: Int){
         tableModel.rem(at: index)
     }
-    private func isTableViewModelContains(item: String) -> Bool{
+    private func isTableViewModelContains(item: TAbleLIstModelItem) -> Bool{
         return tableModel.isContain(item: item)
     }
     private func clearTableViewModel(){
